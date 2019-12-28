@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock head %}
+
+
+
+
+{% block body %}
+
+
+<h1>QA List</h1>
+
+
+{% for question in questions %}
+
+<p>
+    {{ question.id }} {{ question.submission_time }} {{ question.view_number }}
+    {{ question.vote_number }} {{ question.title }} {{ question.message }}
+    {{ question.image }}
+</p>
+
+{% endfor %}
+
+{% endblock body %}
