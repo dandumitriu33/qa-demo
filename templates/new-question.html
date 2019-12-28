@@ -6,8 +6,16 @@
 
 
 {% block body %}
+<h1>New question</h1>
 
-
+<form action="/add-question" method="POST">
+    <label for="title">Question:</label><br>
+    <input type="text" name="title" id="title" required>
+    <label for="message">Details:</label>
+    <textarea name="message" id="message" rows="6" cols="50" required></textarea><br>
+    <input type="file" name="upload">
+    <input type="submit" value="Post">
+</form>
 
 
 {% endblock body %}
