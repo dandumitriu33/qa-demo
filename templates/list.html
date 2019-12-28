@@ -9,6 +9,18 @@
 
 {% block body %}
 
+<a href="{{ url_for('list_all_questions', order_by='submission_time', order_direction='ASC' )}}"><button>Sort by submission time ascending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='submission_time', order_direction='DESC' )}}"><button>Sort by submission time descending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='title', order_direction='ASC' )}}"><button>Sort by title ascending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='title', order_direction='DESC' )}}"><button>Sort by title descending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='message', order_direction='ASC' )}}"><button>Sort by message ascending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='message', order_direction='DESC' )}}"><button>Sort by message descending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='view_number', order_direction='ASC' )}}"><button>Sort by views number ascending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='view_number', order_direction='DESC' )}}"><button>Sort by views number descending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='vote_number', order_direction='ASC' )}}"><button>Sort by vote number ascending</button></a>
+<a href="{{ url_for('list_all_questions', order_by='vote_number', order_direction='DESC' )}}"><button>Sort by vote number descending</button></a>
+
+
 
 <h1>QA List</h1>
 

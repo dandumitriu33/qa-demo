@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 
 app = Flask(__name__)
@@ -11,7 +11,13 @@ def index():
 
 @app.route('/list')
 def list_all_questions():
-    questions = data_manager.get_all_questions()
+    order_by = 'submission_time'
+    order_direction = 'DESC'
+    if request.args.get(key='order_by'):
+        order_by = request.args.get(key='order_by')
+    if request.args.get(key='order_direction'):
+        order_direction = request.args.get(key='order_direction')
+    questions = data_manager.get_all_questions(order_by, order_direction)
     return render_template('list.html',
                            questions=questions)
 
@@ -24,6 +30,20 @@ def display_question(question_id):
                            question_id=question_id,
                            question=question,
                            answers=answers)
+
+
+@app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
+def edit_question(question_id):
+    if request.method == 'GET':
+        question = data_manager.get_question(question_id)
+        return render_template('edit-question.html',
+                               question_id=question_id,
+                               question=question)
+    elif request.method == 'POST':
+        edited_question_title = request.form['title']
+        edited_question_message = request.form['message']
+        data_manager.update_question(question_id, edited_question_title, edited_question_message)
+        return redirect(url_for('display_question', question_id=question_id))
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

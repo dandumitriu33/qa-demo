@@ -17,6 +17,9 @@
 </p>
 {% endfor %}
 
+<a href="{{ url_for('edit_question', question_id=question_id) }}"><button>Edit question</button></a>
+
+
 <h2>Answers</h2>
 
 {% for answer in answers %}
