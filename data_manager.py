@@ -30,7 +30,7 @@ def get_question(cursor, question_id):
 @database_common.connection_handler
 def get_answers_for_question(cursor, question_id):
     cursor.execute(f"""
-                    SELECT * FROM answers WHERE question_id = {question_id};
+                    SELECT * FROM answers WHERE question_id = {question_id} ORDER BY vote_number DESC;
     """)
     answers = cursor.fetchall()
     return answers
@@ -75,6 +75,25 @@ def question_vote_down(cursor, question_id):
                     SET vote_number = vote_number - 1
                     WHERE id = {question_id};
 """)
+
+
+@database_common.connection_handler
+def answer_vote_up(cursor, answer_id):
+    cursor.execute(f"""
+                    UPDATE answers
+                    SET vote_number = vote_number + 1
+                    WHERE id = {answer_id};
+""")
+
+
+@database_common.connection_handler
+def answer_vote_down(cursor, answer_id):
+    cursor.execute(f"""
+                    UPDATE answers
+                    SET vote_number = vote_number - 1
+                    WHERE id = {answer_id};
+""")
+
 
 
 @database_common.connection_handler

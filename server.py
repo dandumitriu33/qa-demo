@@ -124,6 +124,23 @@ def delete_answer(answer_id):
                             question_id=question_id))
 
 
+@app.route('/answer/<answer_id>/vote-up')
+def answer_vote_up(answer_id):
+    data_manager.answer_vote_up(answer_id)
+    answer = data_manager.get_answer(answer_id)
+    question_id = answer[0]['question_id']
+    return redirect(url_for('display_question',
+                            question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/vote-down')
+def answer_vote_down(answer_id):
+    data_manager.answer_vote_down(answer_id)
+    answer = data_manager.get_answer(answer_id)
+    question_id = answer[0]['question_id']
+    return redirect(url_for('display_question',
+                            question_id=question_id))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
