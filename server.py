@@ -100,5 +100,15 @@ def edit_answer(answer_id):
                                 question_id=question_id))
 
 
+@app.route('/answer/<answer_id>/delete')
+def delete_answer(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    question_id = answer[0]['question_id']
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for('display_question',
+                            question_id=question_id))
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

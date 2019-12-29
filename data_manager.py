@@ -96,3 +96,11 @@ def update_answer(cursor, answer_id, message):
                     SET message = '{message}'
                     WHERE id = {answer_id};
     """)
+
+
+@database_common.connection_handler
+def delete_answer(cursor, answer_id):
+    cursor.execute(f"""
+                    DELETE FROM answers
+                    WHERE id = {answer_id};
+    """)
