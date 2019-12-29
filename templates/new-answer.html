@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1>Answer question {{ question_id }}</h1>
+
+
+
+<form action="{{ url_for('question_new_answer', question_id=question_id) }}" method="POST">
+    <label for="message">Details:</label>
+    <textarea name="message" id="message" rows="6" cols="50" required></textarea><br>
+    <input type="file" name="upload">
+    <input type="submit" value="Post">
+</form>
+
+
+
+{% endblock body %}

@@ -67,5 +67,38 @@ def new_question():
                                answers=answers)
 
 
+@app.route('/question/<question_id>/delete')
+def delete_question(question_id):
+    data_manager.delete_question(question_id)
+    return redirect(url_for('list_all_questions'))
+
+
+@app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
+def question_new_answer(question_id):
+    if request.method == 'GET':
+        return render_template('new-answer.html',
+                               question_id=question_id)
+    elif request.method == 'POST':
+        new_answer_message = request.form['message']
+        data_manager.post_answer(question_id, new_answer_message)
+        return redirect(url_for('display_question', question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    if request.method == 'GET':
+        answer = data_manager.get_answer(answer_id)
+        return render_template('edit-answer.html',
+                               answer_id=answer_id,
+                               answer=answer)
+    elif request.method == 'POST':
+        answer = data_manager.get_answer(answer_id)
+        question_id = answer[0]['question_id']
+        edited_answer_message = request.form['message']
+        data_manager.update_answer(answer_id, edited_answer_message)
+        return redirect(url_for('display_question',
+                                question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -37,11 +37,11 @@ def get_answers_for_question(cursor, question_id):
 
 
 @database_common.connection_handler
-def post_question(cursor, title, message):
+def post_question(cursor, title, message, image=None):
     submission_time = int(round(time.time() * 1000))
     cursor.execute(f"""
                     INSERT INTO questions (submission_time, view_number, vote_number, title, message, image)
-                    VALUES ('{submission_time}', 0, 0, '{title}', '{message}', null);
+                    VALUES ('{submission_time}', 0, 0, '{title}', '{message}', '{image}');
 """)
     cursor.execute(f"""
                     SELECT id FROM questions WHERE submission_time = '{submission_time}';
@@ -53,7 +53,46 @@ def post_question(cursor, title, message):
 @database_common.connection_handler
 def update_question(cursor, question_id, title, message):
     cursor.execute(f"""
-                        UPDATE questions
-                        SET title = '{title}', message = '{message}'
-                        WHERE id = {question_id};
+                    UPDATE questions
+                    SET title = '{title}', message = '{message}'
+                    WHERE id = {question_id};
+    """)
+
+
+@database_common.connection_handler
+def delete_question(cursor, question_id):
+    cursor.execute(f"""
+                    DELETE FROM questions
+                    WHERE id = {question_id};
+    """)
+    cursor.execute(f"""
+                    DELETE FROM answers
+                    WHERE question_id = {question_id};
+    """)
+
+
+@database_common.connection_handler
+def post_answer(cursor, question_id, message, image=None):
+    submission_time = int(round(time.time() * 1000))
+    cursor.execute(f"""
+                    INSERT INTO answers (submission_time, vote_number, question_id, message, image)
+                    VALUES ('{submission_time}', 0, {question_id}, '{message}', '{image}')
+    """)
+
+
+@database_common.connection_handler
+def get_answer(cursor, answer_id):
+    cursor.execute(f"""
+                    SELECT * FROM answers WHERE id = {answer_id}; 
+    """)
+    answer = cursor.fetchall()
+    return answer
+
+
+@database_common.connection_handler
+def update_answer(cursor, answer_id, message):
+    cursor.execute(f"""
+                    UPDATE answers
+                    SET message = '{message}'
+                    WHERE id = {answer_id};
     """)

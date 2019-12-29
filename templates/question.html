@@ -17,7 +17,7 @@
         <a href="#"><img src="/static/img/buttondownvote.png" width="20" height="17"></a>
         <span class="question-title">{{ item.title }}</span>
         <a href="{{ url_for('edit_question', question_id=question_id) }}"><img src="/static/img/buttonedit.png" width="20" class="menu-button"></a>
-        <a href="#"><img src="/static/img/buttondelete.png" width="20" class="menu-button"></a>
+        <a href="{{ url_for('delete_question', question_id=question_id) }}"><img src="/static/img/buttondelete.png" width="20" class="menu-button"></a>
     </p>
     <p>
         {{ item.message }}
@@ -45,9 +45,12 @@
                 {{ answer.vote_number }}
                 <a href="#"><img src="/static/img/buttondownvote.png" width="20" height="17"></a>
                 <span>{{ answer.message }}</span>
+                <a href="{{ url_for('edit_answer', answer_id=answer.id, question_id=answer.question_id) }}"><img src="/static/img/buttonedit.png" width="20" class="menu-button"></a>
+                <a href="{{ url_for('delete_question', question_id=question_id) }}"><img src="/static/img/buttondelete.png" width="20" class="menu-button"></a>
             </p>
         </div>
     {% endfor %}
 
+<a href="{{ url_for('question_new_answer', question_id=question_id) }}">Reply</a>
 
 {% endblock body %}
