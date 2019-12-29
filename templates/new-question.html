@@ -8,13 +8,15 @@
 {% block body %}
 <h1>New question</h1>
 
+
 <form action="/add-question" method="POST">
-    <label for="title">Question:</label><br>
-    <input type="text" name="title" id="title" required>
-    <label for="message">Details:</label>
-    <textarea name="message" id="message" rows="6" cols="50" required></textarea><br>
-    <input type="file" name="upload">
-    <input type="submit" value="Post">
+
+    <label for="title" class="form-object">Question:</label><br>
+    <input type="text" name="title" id="title" required class="form-object"><br>
+    <label for="message" class="form-object">Details:</label><br>
+    <textarea name="message" id="message" rows="6" cols="50" required class="form-object"></textarea><br>
+    <input type="file" name="upload" class="form-object"><br>
+    <input type="submit" value="Post" class="text-button">
 </form>
 
 

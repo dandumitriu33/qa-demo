@@ -22,7 +22,7 @@
     <p>
         {{ item.message }}
     </p>
-        {% if item.image == None %}
+        {% if item.image == None or item.image == 'None' %}
 
         {% else %}
         <p>
@@ -51,6 +51,6 @@
         </div>
     {% endfor %}
 
-<a href="{{ url_for('question_new_answer', question_id=question_id) }}">Reply</a>
+<a href="{{ url_for('question_new_answer', question_id=question_id) }}"><button>Reply</button></a>
 
 {% endblock body %}

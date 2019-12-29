@@ -16,6 +16,32 @@ h1 {
     text-align: center;
 }
 
+input[type=text], textarea {
+    width: 97%;
+    padding: 3px;
+    background-color: darkgray;
+    border: none;
+    border-radius: 3px;
+    text-align: left;
+    box-shadow: 3px 3px 3px rgb(24,64,59);
+}
+
+button, .text-button {
+    margin: 0 auto;
+    display: block;
+    width: 50%;
+    border: 2px solid rgb(78,204,189);
+    border-radius: 3px;
+    padding: 3px;
+    font-size: larger;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(78,204,189);
+    box-shadow: 3px 3px 3px rgb(24,64,59);
+}
+
+
+
 a:link {
     text-decoration: none;
     color: black;
@@ -35,6 +61,7 @@ a:active {
     text-decoration: none;
     color: rgb(24,64,59);
 }
+
 
 /* classes */
 
@@ -95,5 +122,6 @@ a:active {
 .sort-button:hover {
     opacity: 0.2;
 }
+
 
 
