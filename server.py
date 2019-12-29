@@ -9,6 +9,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/info')
+def info():
+    return render_template('info.html')
+
+
 @app.route('/list')
 def list_all_questions():
     order_by = 'submission_time'

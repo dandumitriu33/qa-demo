@@ -9,29 +9,33 @@
 
 {% block body %}
 
-<a href="{{ url_for('list_all_questions', order_by='submission_time', order_direction='ASC' )}}"><button>Sort by submission time ascending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='submission_time', order_direction='DESC' )}}"><button>Sort by submission time descending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='title', order_direction='ASC' )}}"><button>Sort by title ascending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='title', order_direction='DESC' )}}"><button>Sort by title descending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='message', order_direction='ASC' )}}"><button>Sort by message ascending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='message', order_direction='DESC' )}}"><button>Sort by message descending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='view_number', order_direction='ASC' )}}"><button>Sort by views number ascending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='view_number', order_direction='DESC' )}}"><button>Sort by views number descending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='vote_number', order_direction='ASC' )}}"><button>Sort by vote number ascending</button></a>
-<a href="{{ url_for('list_all_questions', order_by='vote_number', order_direction='DESC' )}}"><button>Sort by vote number descending</button></a>
+<a href="{{ url_for('list_all_questions') }}"><h1>ALL QUESTIONS</h1></a>
 
 
 
-<h1>QA List</h1>
 
 
 {% for question in questions %}
 
-<p>
-    {{ question.id }} {{ question.submission_time }} {{ question.view_number }}
-    {{ question.vote_number }} {{ question.title }} {{ question.message }}
-    {{ question.image }}
-</p>
+    <div class="question">
+        <p>
+            {{ question.vote_number }} <strong><a href="/question/{{ question.id }}">{{ question.title }}</a></strong><br>
+            <span class="question-info">Submitted on {{ question.submission_time }} ID: {{ question.id }} Views: {{ question.view_number }}<span>
+
+        </p>
+        <p>
+            {{ question.message }}
+        </p>
+
+        {% if question.image == None %}
+
+        {% else %}
+        <p>
+            {{ question.image }}
+        </p>
+        {% endif %}
+    </div>
+
 
 {% endfor %}
 

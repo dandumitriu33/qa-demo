@@ -1,0 +1,83 @@
+html {
+    background-color: rgb(48,128,118);
+}
+
+nav {
+    position: fixed;
+    right: 1%;
+    bottom: 1%;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgb(24,64,59);
+}
+
+a:active {
+    text-decoration: none;
+    color: rgb(24,64,59);
+}
+
+/* classes */
+
+.menu-button {
+    margin: 3px;
+    box-shadow: 3px 3px 3px rgb(24,64,59);
+    border-radius: 3px;
+}
+
+.menu-button:hover {
+    opacity: 0.2;
+}
+
+.question {
+    margin: 1%;
+    padding: 1%;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px rgb(24,64,59);
+    background-color: rgb(73,191,177);
+}
+
+.sort-bar {
+    position: fixed;
+    bottom: calc(1% + 15px);
+    right: calc(1% + 50px);
+}
+
+.sort-bar ul {
+    list-style-type: none;
+    text-align: right;
+}
+
+.sort-button {
+    margin: 3px;
+    box-shadow: 3px 3px 3px rgb(24,64,59);
+    border-radius: 3px;
+}
+
+.sort-button:hover {
+    opacity: 0.2;
+}
+
+.question-info {
+    color: rgb(87,230,213);
+    font-size: small;
+}
