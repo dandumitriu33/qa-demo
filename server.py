@@ -37,6 +37,21 @@ def display_question(question_id):
                            answers=answers)
 
 
+@app.route('/question/<question_id>/vote-up')
+def question_vote_up(question_id):
+    data_manager.question_vote_up(question_id)
+    return redirect(url_for('display_question',
+                            question_id=question_id))
+
+
+@app.route('/question/<question_id>/vote-down')
+def question_vote_down(question_id):
+    data_manager.question_vote_down(question_id)
+    return redirect(url_for('display_question',
+                            question_id=question_id))
+
+
+
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
     if request.method == 'GET':

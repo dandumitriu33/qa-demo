@@ -60,6 +60,24 @@ def update_question(cursor, question_id, title, message):
 
 
 @database_common.connection_handler
+def question_vote_up(cursor, question_id):
+    cursor.execute(f"""
+                    UPDATE questions
+                    SET vote_number = vote_number + 1
+                    WHERE id = {question_id};
+""")
+
+
+@database_common.connection_handler
+def question_vote_down(cursor, question_id):
+    cursor.execute(f"""
+                    UPDATE questions
+                    SET vote_number = vote_number - 1
+                    WHERE id = {question_id};
+""")
+
+
+@database_common.connection_handler
 def delete_question(cursor, question_id):
     cursor.execute(f"""
                     DELETE FROM questions
