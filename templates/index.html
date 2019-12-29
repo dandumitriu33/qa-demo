@@ -10,9 +10,27 @@
 {% block body %}
 
 
-<h1>QA Home</h1>
+<a href="{{ url_for('index') }}"><h1>QUESTIONS AND ANSWERS!</h1></a>
 
 
-<p>Welcome to QA demo.</p>
+<h2>Welcome to the Questions and Answers homepage.</h2>
+
+    <div>
+        <h3>[News] We have 5 users, yay!</h3>
+        <p>
+            This week we reached the long awaited milestone of 5 registered users. The
+            staff will be having a party and will post pictures in the following days.
+            Thanks y'all!
+        </p>
+    </div>
+
+    <div>
+        <h3>[Feature request] Database for home page articles</h3>
+        <p>
+            The admins have been asking for this for a very long time. They want to have
+            the latest 5 events on the home page. Maybe a database and "Add new event" page
+            could do the trick? They are waiting and it's worth 2000 points.
+        </p>
+    </div>
 
 {% endblock body %}
