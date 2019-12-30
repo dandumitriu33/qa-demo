@@ -155,3 +155,21 @@ def delete_answer(cursor, answer_id):
                     DELETE FROM answers
                     WHERE id = {answer_id};
     """)
+
+
+@database_common.connection_handler
+def get_questions_phrase(cursor, search_phrase):
+    cursor.execute(f"""
+                        SELECT * FROM questions WHERE title ILIKE '%{search_phrase}%' OR message ILIKE '%{search_phrase}%'; 
+        """)
+    questions = cursor.fetchall()
+    return questions
+
+
+@database_common.connection_handler
+def get_answers_phrase(cursor, search_phrase):
+    cursor.execute(f"""
+                        SELECT * FROM answers WHERE message ILIKE '%{search_phrase}%'; 
+        """)
+    answers = cursor.fetchall()
+    return answers

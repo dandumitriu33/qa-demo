@@ -144,5 +144,15 @@ def answer_vote_down(answer_id):
                             question_id=question_id))
 
 
+@app.route('/search')
+def search():
+    search_phrase = request.args.get('search-phrase')
+    questions = data_manager.get_questions_phrase(search_phrase)
+    answers = data_manager.get_answers_phrase(search_phrase)
+    return render_template('search.html',
+                           questions=questions,
+                           answers=answers)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

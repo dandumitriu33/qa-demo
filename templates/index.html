@@ -15,6 +15,14 @@
 
 <h2>Welcome to the Questions and Answers homepage.</h2>
 
+
+<form action="/search" method="GET">
+    <input type="search" name="search-phrase">
+    <input type="submit" value="Search">
+</form>
+
+
+
     {% for question in questions %}
 
         <div class="question">

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock head %}
+
+
+
+
+{% block body %}
+
+<h1>SEARCH</h1>
+
+
+
+
+
+{% for question in questions %}
+
+    <div class="question">
+        <p>
+            {{ question.vote_number }} <strong><a href="/question/{{ question.id }}" class="question-title">{{ question.title }}</a></strong><br>
+            <span class="question-info">Submitted on {{ question.submission_time }} ID: {{ question.id }} Views: {{ question.view_number }}<span>
+
+        </p>
+        <p>
+            {{ question.message }}
+        </p>
+
+        {% if question.image == 'None' or question.image == None %}
+
+        {% else %}
+        <p>
+            {{ question.image }}
+        </p>
+        {% endif %}
+    </div>
+
+
+{% endfor %}
+
+<hr>
+
+{% for answer in answers %}
+
+    <div class="search-answer">
+        <p>
+            <a href="{{ url_for('display_question', question_id=answer.question_id) }}">
+                Question {{ answer.question_id }}
+            </a>
+        </p>
+        <p>
+            {{ answer.vote_number }} <span class="question-info">{{ answer.submission_time }}</span> {{ answer.message }}
+        </p>
+
+
+        {% if answer.image == 'None' or answer.image == None %}
+
+        {% else %}
+        <p>
+            {{ answer.image }}
+        </p>
+        {% endif %}
+    </div>
+
+
+{% endfor %}
+
+
+{% endblock body %}
