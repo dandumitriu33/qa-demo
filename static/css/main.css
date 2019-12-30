@@ -44,6 +44,10 @@ button:hover {
     opacity: 0.2;
 }
 
+mark {
+    background-color: rgb(255,146,97);
+}
+
 .text-button:hover {
     opacity: 0.2;
 }
@@ -106,6 +110,15 @@ a:active {
     border-radius: 3px;
     box-shadow: 3px 3px 3px rgb(24,64,59);
     background-color: rgb(73,191,177);
+}
+
+.comment {
+    margin: 1%;
+    margin-left: 60%;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px rgb(24,64,59);
+    background-color: rgb(50,128,110);
+
 }
 
 .sort-bar {

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock head %}
+
+
+
+
+{% block body %}
+<h1>Add comment</h1>
+
+
+{% if question_id %}
+<form action="{{ url_for('question_new_comment', question_id=question_id) }}" method="POST">
+    <label for="message">Details:</label>
+    <textarea name="message" id="message" rows="6" cols="50" required></textarea><br>
+    <input type="file" name="upload">
+    <input type="submit" value="Post" class="text-button">
+</form>
+{% elif answer_id %}
+    <form action="{{ url_for('answer_new_comment', answer_id=answer_id) }}" method="POST">
+    <label for="answer-message">Details:</label>
+    <textarea name="message" id="answer-message" rows="6" cols="50" required></textarea><br>
+    <input type="file" name="upload">
+    <input type="submit" value="Post" class="text-button">
+</form>
+
+{% endif %}
+
+
+{% endblock body %}

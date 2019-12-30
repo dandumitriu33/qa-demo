@@ -31,12 +31,15 @@ def list_all_questions():
 
 @app.route('/question/<question_id>')
 def display_question(question_id):
+    question_id = int(question_id)
     question = data_manager.get_question(question_id)
     answers = data_manager.get_answers_for_question(question_id)
+    comments = data_manager.get_comments_for_question(question_id)
     return render_template('question.html',
                            question_id=question_id,
                            question=question,
-                           answers=answers)
+                           answers=answers,
+                           comments=comments)
 
 
 @app.route('/question/<question_id>/vote-up')
@@ -51,7 +54,6 @@ def question_vote_down(question_id):
     data_manager.question_vote_down(question_id)
     return redirect(url_for('display_question',
                             question_id=question_id))
-
 
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
@@ -150,8 +152,37 @@ def search():
     questions = data_manager.get_questions_phrase(search_phrase)
     answers = data_manager.get_answers_phrase(search_phrase)
     return render_template('search.html',
+                           search_phrase=search_phrase,
                            questions=questions,
                            answers=answers)
+
+
+@app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+def question_new_comment(question_id):
+    if request.method == 'GET':
+        return render_template('new-comment.html',
+                               question_id=question_id)
+    elif request.method == 'POST':
+        new_comment_message = request.form['message']
+        question_id = question_id
+        data_manager.post_question_comment(question_id=question_id,
+                                            message=new_comment_message)
+        return redirect(url_for('display_question', question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+def answer_new_comment(answer_id):
+    if request.method == 'GET':
+        return render_template('new-comment.html',
+                               answer_id=answer_id)
+    elif request.method == 'POST':
+        new_comment_message = request.form['message']
+        answer_id = answer_id
+        data_manager.post_answer_comment(answer_id=answer_id,
+                                            message=new_comment_message)
+        answer = data_manager.get_answer(answer_id)
+        question_id = answer[0]['question_id']
+        return redirect(url_for('display_question', question_id=question_id))
 
 
 if __name__ == '__main__':

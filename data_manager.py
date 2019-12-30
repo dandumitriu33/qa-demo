@@ -173,3 +173,47 @@ def get_answers_phrase(cursor, search_phrase):
         """)
     answers = cursor.fetchall()
     return answers
+
+
+@database_common.connection_handler
+def post_question_comment(cursor, question_id, message):
+    submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
+    cursor.execute(f"""
+                    INSERT INTO comments (submission_time, question_id, message)
+                    VALUES ('{submission_time}', {question_id}, '{message}')
+    """)
+
+
+@database_common.connection_handler
+def post_answer_comment(cursor, answer_id, message):
+    submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
+    cursor.execute(f"""
+                    INSERT INTO comments (submission_time, answer_id, message)
+                    VALUES ('{submission_time}', {answer_id}, '{message}')
+    """)
+
+
+@database_common.connection_handler
+def get_comments_for_question(cursor, question_id):
+    comments = []
+
+    # getting comments from the question side
+
+    cursor.execute(f"""
+                        SELECT * FROM comments WHERE question_id = {question_id} ORDER BY submission_time DESC;
+        """)
+    comments.append(cursor.fetchall())
+
+    # getting comments from the answers of the above question
+
+    cursor.execute(f"""
+                    SELECT * FROM answers WHERE question_id = {question_id};
+    """)
+    answers = cursor.fetchall()
+    for answer in answers:
+        answer_id = answer['id']
+        cursor.execute(f"""
+                            SELECT * FROM comments WHERE answer_id = {answer_id} ORDER BY submission_time DESC;
+            """)
+        comments.append(cursor.fetchall())
+    return comments
