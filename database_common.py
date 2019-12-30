@@ -5,10 +5,13 @@ import psycopg2
 import psycopg2.extras
 
 
+DATABASE_URL = os.environ['DATABASE_URL']
+
+
 def get_connection_string():
     # setup connection string
     # to do this, please define these environment variables first
-    user_name = 'codecooler'  # os.environ.get('PSQL_USER_NAME')
+    user_name = 'codecooler'  #os.environ.get('PSQL_USER_NAME')
     password = '123456'  # os.environ.get('PSQL_PASSWORD')
     host = 'localhost'  # os.environ.get('PSQL_HOST')
     database_name = 'qademo'    # os.environ.get('PSQL_DB_NAME')
@@ -29,8 +32,9 @@ def get_connection_string():
 
 def open_database():
     try:
-        connection_string = get_connection_string()
-        connection = psycopg2.connect(connection_string)
+        # connection_string = get_connection_string()
+        # connection = psycopg2.connect(connection_string)
+        connection = psycopg2.connect(DATABASE_URL, sslmode='require')
         connection.autocommit = True
     except psycopg2.DatabaseError as exception:
         print('Database connection problem')
