@@ -47,6 +47,7 @@
             {% if item.question_id == question_id %}
                 <p class="comment">
                     {{ item.message }}
+                    <a href="{{ url_for('edit_comment', comment_id=item.id) }}"><img src="/static/img/buttonedit.png" width='20' class="menu-button"></a>
                 </p>
             {% endif %}
 
@@ -79,6 +80,7 @@
                     {% if item.answer_id == answer.id %}
                         <p class="comment">
                             {{ item.message }}
+                            <a href="{{ url_for('edit_comment', comment_id=item.id) }}"><img src="/static/img/buttonedit.png" width='20' class="menu-button"></a>
                         </p>
                     {% endif %}
 

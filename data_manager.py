@@ -233,3 +233,21 @@ def get_comments_for_question(cursor, question_id):
             """)
         comments.append(cursor.fetchall())
     return comments
+
+
+@database_common.connection_handler
+def get_comment(cursor, comment_id):
+    cursor.execute(f"""
+                    SELECT * FROM comments WHERE id = {comment_id}; 
+    """)
+    answer = cursor.fetchall()
+    return answer
+
+
+@database_common.connection_handler
+def update_comment(cursor, comment_id, message):
+    cursor.execute(f"""
+                    UPDATE comments
+                    SET message = '{message}'
+                    WHERE id = {comment_id};
+    """)
