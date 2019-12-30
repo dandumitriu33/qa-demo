@@ -15,6 +15,32 @@
 
 <h2>Welcome to the Questions and Answers homepage.</h2>
 
+    {% for question in questions %}
+
+        <div class="question">
+        <p>
+            {{ question.vote_number }} <strong><a href="/question/{{ question.id }}" class="question-title">{{ question.title }}</a></strong><br>
+            <span class="question-info">Submitted on {{ question.submission_time }} ID: {{ question.id }} Views: {{ question.view_number }}<span>
+
+        </p>
+        <p>
+            {{ question.message }}
+        </p>
+
+        {% if question.image == 'None' or question.image == None %}
+
+        {% else %}
+        <p>
+            {{ question.image }}
+        </p>
+        {% endif %}
+        </div>
+
+
+    {% endfor %}
+
+
+
     <div>
         <h3>[News] We have 5 users, yay!</h3>
         <p>

@@ -17,6 +17,16 @@ def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'
     return questions
 
 
+@database_common.connection_handler
+def get_latest_five_questions(cursor):
+    cursor.execute(f"""
+                        SELECT * FROM questions
+                        ORDER BY submission_time DESC
+                        LIMIT 5; 
+        """)
+    questions = cursor.fetchall()
+    return questions
+
 
 @database_common.connection_handler
 def get_question(cursor, question_id):

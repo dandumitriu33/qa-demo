@@ -6,7 +6,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    questions = data_manager.get_latest_five_questions()
+    return render_template('index.html',
+                           questions=questions)
 
 
 @app.route('/info')

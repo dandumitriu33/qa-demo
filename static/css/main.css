@@ -40,6 +40,13 @@ button, .text-button {
     box-shadow: 3px 3px 3px rgb(24,64,59);
 }
 
+button:hover {
+    opacity: 0.2;
+}
+
+.text-button:hover {
+    opacity: 0.2;
+}
 
 
 a:link {
