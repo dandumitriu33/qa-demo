@@ -251,3 +251,11 @@ def update_comment(cursor, comment_id, message):
                     SET message = '{message}'
                     WHERE id = {comment_id};
     """)
+
+
+@database_common.connection_handler
+def delete_comment(cursor, comment_id):
+    cursor.execute(f"""
+                    DELETE FROM comments
+                    WHERE id = {comment_id};
+    """)

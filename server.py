@@ -210,5 +210,22 @@ def edit_comment(comment_id):
                                     question_id=question_id))
 
 
+@app.route('/comment/<comment_id>/delete')
+def delete_comment(comment_id):
+    comment = data_manager.get_comment(comment_id)
+    if comment[0]['question_id']:
+        question_id = comment[0]['question_id']
+        data_manager.delete_comment(comment_id)
+        return redirect(url_for('display_question',
+                                question_id=question_id))
+    elif comment[0]['answer_id']:
+        answer_id = comment[0]['answer_id']
+        answer = data_manager.get_answer(answer_id)
+        question_id = answer[0]['question_id']
+        data_manager.delete_comment(comment_id)
+        return redirect(url_for('display_question',
+                                question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
