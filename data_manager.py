@@ -109,16 +109,30 @@ def answer_vote_down(cursor, answer_id):
 """)
 
 
-
 @database_common.connection_handler
 def delete_question(cursor, question_id):
+    # grabs all the answers and then loops through them to delete their comments
+
     cursor.execute(f"""
-                    DELETE FROM questions
-                    WHERE id = {question_id};
-    """)
+                        SELECT * FROM answers WHERE question_id = {question_id} ORDER BY vote_number DESC;
+        """)
+    answers = cursor.fetchall()
+    for answer in answers:
+        answer_id = answer['id']
+        cursor.execute(f"""
+                            DELETE FROM comments 
+                            WHERE answer_id = {answer_id};
+                """)
+
+    # deletes answers, then question comments, then the question
+
     cursor.execute(f"""
                     DELETE FROM answers
                     WHERE question_id = {question_id};
+                    DELETE FROM comments 
+                    WHERE question_id = {question_id};
+                    DELETE FROM questions
+                    WHERE id = {question_id};
     """)
 
 
@@ -152,6 +166,8 @@ def update_answer(cursor, answer_id, message):
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
     cursor.execute(f"""
+                    DELETE FROM comments
+                    WHERE answer_id = {answer_id};
                     DELETE FROM answers
                     WHERE id = {answer_id};
     """)
@@ -180,7 +196,7 @@ def post_question_comment(cursor, question_id, message):
     submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
     cursor.execute(f"""
                     INSERT INTO comments (submission_time, question_id, message)
-                    VALUES ('{submission_time}', {question_id}, '{message}')
+                    VALUES ('{submission_time}', {question_id}, '{message}');
     """)
 
 
@@ -189,7 +205,7 @@ def post_answer_comment(cursor, answer_id, message):
     submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
     cursor.execute(f"""
                     INSERT INTO comments (submission_time, answer_id, message)
-                    VALUES ('{submission_time}', {answer_id}, '{message}')
+                    VALUES ('{submission_time}', {answer_id}, '{message}');
     """)
 
 

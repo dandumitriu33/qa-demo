@@ -64,8 +64,8 @@ def edit_question(question_id):
                                question_id=question_id,
                                question=question)
     elif request.method == 'POST':
-        edited_question_title = request.form['title']
-        edited_question_message = request.form['message']
+        edited_question_title = request.form['title'].replace("'", "''")
+        edited_question_message = request.form['message'].replace("'", "''")
         data_manager.update_question(question_id, edited_question_title, edited_question_message)
         return redirect(url_for('display_question', question_id=question_id))
 
@@ -75,8 +75,8 @@ def new_question():
     if request.method == 'GET':
         return render_template('new-question.html')
     elif request.method == 'POST':
-        new_question_title = request.form['title']
-        new_question_message = request.form['message']
+        new_question_title = request.form['title'].replace("'", "''")
+        new_question_message = request.form['message'].replace("'", "''")
         question_id = data_manager.post_question(new_question_title, new_question_message)
         question = data_manager.get_question(question_id)
         answers = data_manager.get_answers_for_question(question_id)
@@ -98,7 +98,7 @@ def question_new_answer(question_id):
         return render_template('new-answer.html',
                                question_id=question_id)
     elif request.method == 'POST':
-        new_answer_message = request.form['message']
+        new_answer_message = request.form['message'].replace("'", "''")
         data_manager.post_answer(question_id, new_answer_message)
         return redirect(url_for('display_question', question_id=question_id))
 
@@ -113,7 +113,7 @@ def edit_answer(answer_id):
     elif request.method == 'POST':
         answer = data_manager.get_answer(answer_id)
         question_id = answer[0]['question_id']
-        edited_answer_message = request.form['message']
+        edited_answer_message = request.form['message'].replace("'", "''")
         data_manager.update_answer(answer_id, edited_answer_message)
         return redirect(url_for('display_question',
                                 question_id=question_id))
@@ -163,10 +163,10 @@ def question_new_comment(question_id):
         return render_template('new-comment.html',
                                question_id=question_id)
     elif request.method == 'POST':
-        new_comment_message = request.form['message']
+        message = request.form['message'].replace("'", "''")
         question_id = question_id
         data_manager.post_question_comment(question_id=question_id,
-                                            message=new_comment_message)
+                                           message=message)
         return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -176,10 +176,12 @@ def answer_new_comment(answer_id):
         return render_template('new-comment.html',
                                answer_id=answer_id)
     elif request.method == 'POST':
-        new_comment_message = request.form['message']
+        message = request.form['message'].replace("'", "''")
+
+        print(type(message))
         answer_id = answer_id
         data_manager.post_answer_comment(answer_id=answer_id,
-                                            message=new_comment_message)
+                                         message=message)
         answer = data_manager.get_answer(answer_id)
         question_id = answer[0]['question_id']
         return redirect(url_for('display_question', question_id=question_id))
