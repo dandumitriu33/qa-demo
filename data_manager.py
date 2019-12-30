@@ -32,6 +32,9 @@ def get_latest_five_questions(cursor):
 @database_common.connection_handler
 def get_question(cursor, question_id):
     cursor.execute(f"""
+                    UPDATE questions
+                    SET view_number = view_number + 1
+                    WHERE id = {question_id};
                     SELECT * FROM questions WHERE id = {question_id}; 
     """)
     question = cursor.fetchall()
