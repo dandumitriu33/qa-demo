@@ -102,11 +102,14 @@ def question_vote_up(cursor, question_id, points_user_id):
 
 
 @database_common.connection_handler
-def question_vote_down(cursor, question_id):
+def question_vote_down(cursor, question_id, points_user_id):
     cursor.execute(f"""
                     UPDATE questions
                     SET vote_number = vote_number - 1
                     WHERE id = {question_id};
+                    UPDATE users
+                    SET reputation = reputation - 2
+                    WHERE id={points_user_id};
 """)
 
 
@@ -134,11 +137,14 @@ def answer_vote_up(cursor, answer_id, points_user_id):
 
 
 @database_common.connection_handler
-def answer_vote_down(cursor, answer_id):
+def answer_vote_down(cursor, answer_id, points_user_id):
     cursor.execute(f"""
                     UPDATE answers
                     SET vote_number = vote_number - 1
                     WHERE id = {answer_id};
+                    UPDATE users
+                    SET reputation = reputation - 2
+                    WHERE id={points_user_id};
 """)
 
 
@@ -397,11 +403,14 @@ def get_all_user_comments(cursor, user_id):
 
 
 @database_common.connection_handler
-def update_answer_not_accepted(cursor, answer_id):
+def update_answer_not_accepted(cursor, answer_id, points_user_id):
     cursor.execute(f"""
                     UPDATE answers
                     SET accepted=false
                     WHERE id={answer_id};
+                    UPDATE users
+                    SET reputation = reputation - 15
+                    WHERE id={points_user_id};
     """)
 
 
