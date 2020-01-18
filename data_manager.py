@@ -197,20 +197,20 @@ def get_answers_phrase(cursor, search_phrase):
 
 
 @database_common.connection_handler
-def post_question_comment(cursor, question_id, message):
+def post_question_comment(cursor, question_id, message, user_id):
     submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
     cursor.execute(f"""
-                    INSERT INTO comments (submission_time, question_id, message)
-                    VALUES ('{submission_time}', {question_id}, '{message}');
+                    INSERT INTO comments (submission_time, question_id, message, user_id)
+                    VALUES ('{submission_time}', {question_id}, '{message}', {user_id});
     """)
 
 
 @database_common.connection_handler
-def post_answer_comment(cursor, answer_id, message):
+def post_answer_comment(cursor, answer_id, message, user_id):
     submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
     cursor.execute(f"""
-                    INSERT INTO comments (submission_time, answer_id, message)
-                    VALUES ('{submission_time}', {answer_id}, '{message}');
+                    INSERT INTO comments (submission_time, answer_id, message, user_id)
+                    VALUES ('{submission_time}', {answer_id}, '{message}', {user_id});
     """)
 
 

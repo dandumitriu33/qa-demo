@@ -172,8 +172,10 @@ def question_new_comment(question_id):
     elif request.method == 'POST':
         message = request.form['message'].replace("'", "''")
         question_id = question_id
+        user_id = data_manager.get_user_id_by_username(session['username'])
         data_manager.post_question_comment(question_id=question_id,
-                                           message=message)
+                                           message=message,
+                                           user_id=user_id)
         return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -185,8 +187,10 @@ def answer_new_comment(answer_id):
     elif request.method == 'POST':
         message = request.form['message'].replace("'", "''")
         answer_id = answer_id
+        user_id = data_manager.get_user_id_by_username(session['username'])
         data_manager.post_answer_comment(answer_id=answer_id,
-                                         message=message)
+                                         message=message,
+                                         user_id=user_id)
         answer = data_manager.get_answer(answer_id)
         question_id = answer[0]['question_id']
         return redirect(url_for('display_question', question_id=question_id))
