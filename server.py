@@ -119,7 +119,7 @@ def edit_answer(answer_id):
                                answer=answer)
     elif request.method == 'POST':
         answer = data_manager.get_answer(answer_id)
-        question_id = answer[0]['question_id']
+        question_id = answer['question_id']
         edited_answer_message = request.form['message'].replace("'", "''")
         data_manager.update_answer(answer_id, edited_answer_message)
         return redirect(url_for('display_question',
@@ -129,7 +129,7 @@ def edit_answer(answer_id):
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
     answer = data_manager.get_answer(answer_id)
-    question_id = answer[0]['question_id']
+    question_id = answer['question_id']
     data_manager.delete_answer(answer_id)
     return redirect(url_for('display_question',
                             question_id=question_id))
@@ -139,7 +139,7 @@ def delete_answer(answer_id):
 def answer_vote_up(answer_id):
     data_manager.answer_vote_up(answer_id)
     answer = data_manager.get_answer(answer_id)
-    question_id = answer[0]['question_id']
+    question_id = answer['question_id']
     return redirect(url_for('display_question',
                             question_id=question_id))
 
@@ -148,7 +148,7 @@ def answer_vote_up(answer_id):
 def answer_vote_down(answer_id):
     data_manager.answer_vote_down(answer_id)
     answer = data_manager.get_answer(answer_id)
-    question_id = answer[0]['question_id']
+    question_id = answer['question_id']
     return redirect(url_for('display_question',
                             question_id=question_id))
 
@@ -192,7 +192,7 @@ def answer_new_comment(answer_id):
                                          message=message,
                                          user_id=user_id)
         answer = data_manager.get_answer(answer_id)
-        question_id = answer[0]['question_id']
+        question_id = answer['question_id']
         return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -216,7 +216,7 @@ def edit_comment(comment_id):
             edited_comment_message = request.form['message'].replace("'", "''")
             data_manager.update_comment(comment_id, edited_comment_message)
             answer = data_manager.get_answer(answer_id)
-            question_id = answer[0]['question_id']
+            question_id = answer['question_id']
             return redirect(url_for('display_question',
                                     question_id=question_id))
 
@@ -232,7 +232,7 @@ def delete_comment(comment_id):
     elif comment[0]['answer_id']:
         answer_id = comment[0]['answer_id']
         answer = data_manager.get_answer(answer_id)
-        question_id = answer[0]['question_id']
+        question_id = answer['question_id']
         data_manager.delete_comment(comment_id)
         return redirect(url_for('display_question',
                                 question_id=question_id))
@@ -287,6 +287,18 @@ def display_user_activity(user_id):
                            target_user_questions=target_user_questions,
                            target_user_answers=target_user_answers,
                            target_user_comments=target_user_comments)
+
+
+@app.route('/answer/<answer_id>/accept')
+def accept_answer(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    question_id = answer['question_id']
+    if answer['accepted']:
+        data_manager.update_answer_not_accepted(answer_id)
+        return redirect(url_for('display_question', question_id=question_id))
+    elif not answer['accepted']:
+        data_manager.update_answer_accepted(answer_id)
+        return redirect(url_for('display_question', question_id=question_id))
 
 
 if __name__ == '__main__':

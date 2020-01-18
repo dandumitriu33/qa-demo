@@ -155,7 +155,7 @@ def get_answer(cursor, answer_id):
     cursor.execute(f"""
                     SELECT * FROM answers WHERE id = {answer_id}; 
     """)
-    answer = cursor.fetchall()
+    answer = cursor.fetchone()
     return answer
 
 
@@ -366,3 +366,21 @@ def get_all_user_comments(cursor, user_id):
 """)
     user_comments = cursor.fetchall()
     return user_comments
+
+
+@database_common.connection_handler
+def update_answer_not_accepted(cursor, answer_id):
+    cursor.execute(f"""
+                    UPDATE answers
+                    SET accepted=false
+                    WHERE id={answer_id};
+    """)
+
+
+@database_common.connection_handler
+def update_answer_accepted(cursor, answer_id):
+    cursor.execute(f"""
+                    UPDATE answers
+                    SET accepted=true
+                    WHERE id={answer_id};
+    """)

@@ -67,6 +67,13 @@
                 <a href="{{ url_for('answer_vote_up', answer_id=answer.id) }}"><img src="/static/img/buttonupvote.png" width="20" height="17"></a>
                 {{ answer.vote_number }}
                 <a href="{{ url_for('answer_vote_down', answer_id=answer.id) }}"><img src="/static/img/buttondownvote.png" width="20" height="17"></a>
+                    <span>
+                        {% if not answer.accepted %}
+                            <a href="{{ url_for('accept_answer', answer_id=answer.id) }}">Accept answer</a>
+                        {% else %}
+                            ACCEPTED <a href="{{ url_for('accept_answer', answer_id=answer.id) }}">Undo</a>
+                        {% endif %}
+                    </span>
                 <span>{{ answer.message }}</span>
                 <a href="{{ url_for('answer_new_comment', answer_id=answer.id) }}"><img src="/static/img/buttoncomment.png" width="20" class="menu-button"></a>
                 <a href="{{ url_for('edit_answer', answer_id=answer.id, question_id=answer.question_id) }}"><img src="/static/img/buttonedit.png" width="20" class="menu-button"></a>
