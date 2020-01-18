@@ -276,6 +276,17 @@ def display_users():
                            users=users)
 
 
+@app.route('/user/<user_id>')
+def display_user_activity(user_id):
+    target_user_username = data_manager.get_username_by_user_id(user_id)
+    target_user_questions = data_manager.get_all_user_questions(user_id)
+    target_user_answers = data_manager.get_all_user_answers(user_id)
+    target_user_comments = data_manager.get_all_user_comments(user_id)
+    return render_template('user.html',
+                           target_user_username=target_user_username,
+                           target_user_questions=target_user_questions,
+                           target_user_answers=target_user_answers,
+                           target_user_comments=target_user_comments)
 
 
 if __name__ == '__main__':

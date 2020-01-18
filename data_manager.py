@@ -313,3 +313,56 @@ def get_user_id_by_username(cursor, username):
     result = cursor.fetchone()
     user_id = result['id']
     return user_id
+
+
+@database_common.connection_handler
+def get_username_by_user_id(cursor, user_id):
+    cursor.execute(f"""
+                   SELECT username FROM users
+                   WHERE id='{user_id}';
+""")
+    result = cursor.fetchone()
+    target_user_username = result['username']
+    return target_user_username
+
+
+@database_common.connection_handler
+def get_all_user_questions(cursor, user_id):
+    cursor.execute(f"""
+            SELECT users.username, questions.title, questions.id FROM users
+            JOIN questions ON users.id = questions.user_id
+            WHERE users.id={user_id}
+            ;
+""")
+    user_questions = cursor.fetchall()
+    return user_questions
+
+
+@database_common.connection_handler
+def get_all_user_answers(cursor, user_id):
+    cursor.execute(f"""
+            SELECT users.username, answers.message, answers.question_id FROM users
+            JOIN answers ON users.id = answers.user_id
+            WHERE users.id={user_id}
+            ;
+""")
+    user_answers = cursor.fetchall()
+    return user_answers
+
+
+@database_common.connection_handler
+def get_all_user_comments(cursor, user_id):
+    cursor.execute(f"""
+            SELECT users.username, 
+                    comments.message, 
+                    comments.question_id, 
+                    comments.answer_id, 
+                    ( SELECT answers.question_id FROM answers
+                        WHERE id=comments.answer_id) AS answers_linked_question_id
+            FROM users
+            JOIN comments ON users.id = comments.user_id
+            WHERE users.id={user_id}
+            ;
+""")
+    user_comments = cursor.fetchall()
+    return user_comments
