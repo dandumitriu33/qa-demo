@@ -150,3 +150,11 @@ a:active {
     box-shadow: 3px 3px 3px rgb(24,64,59);
     background-color: rgb(73,191,177);
 }
+
+.authentication-bar {
+    display: block;
+}
+
+.authentication-items {
+    text-align: right;
+}

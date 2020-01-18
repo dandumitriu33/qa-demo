@@ -18,8 +18,15 @@
 
 <body>
 
-<div class="authentication-items">
-    <a href="{{ url_for('register') }}">Register</a>
+<div class="authentication-bar">
+    <div class="authentication-items">
+    {% if not session %}
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}" >Login</a>
+    {% else %}
+        <a href="{{ url_for('logout') }}" >Logout</a>
+    {% endif %}
+    </div>
 </div>
 
 <nav>

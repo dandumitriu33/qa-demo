@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask import session
 import data_manager
 
 app = Flask(__name__)
+
+
+# Set the secret key to some random bytes. Keep this really secret!
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/4545bec'
 
 
 @app.route('/')
@@ -237,6 +242,25 @@ def register():
         password = data_manager.hash_password(request.form['password'])
         data_manager.register_user(name, username, password)
         return redirect(url_for('index'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        db_password = data_manager.get_db_password_for_user(request.form['username'])
+        if data_manager.verify_password(request.form['password'], db_password):
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+        else:
+            return 'Username or password invalid.'
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    # removes the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
