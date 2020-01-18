@@ -82,7 +82,8 @@ def new_question():
     elif request.method == 'POST':
         new_question_title = request.form['title'].replace("'", "''")
         new_question_message = request.form['message'].replace("'", "''")
-        question_id = data_manager.post_question(new_question_title, new_question_message)
+        user_id = data_manager.get_user_id_by_username(session['username'])
+        question_id = data_manager.post_question(new_question_title, new_question_message, user_id)
         question = data_manager.get_question(question_id)
         answers = data_manager.get_answers_for_question(question_id)
         return render_template('question.html',

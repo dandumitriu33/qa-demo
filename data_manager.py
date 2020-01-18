@@ -8,11 +8,11 @@ import bcrypt
 @database_common.connection_handler
 def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'):
     order_dict = {
-                'submission_time': "SELECT * FROM questions ORDER BY submission_time ",
-                'title': "SELECT * FROM questions ORDER BY title ",
-                'message': "SELECT * FROM questions ORDER BY message ",
-                'view_number': "SELECT * FROM questions ORDER BY view_number ",
-                'vote_number': "SELECT * FROM questions ORDER BY vote_number "
+                'submission_time': "SELECT questions.*, users.username FROM questions LEFT JOIN users ON questions.user_id = users.id ORDER BY submission_time ",
+                'title': "SELECT questions.*, users.username FROM questions LEFT JOIN users ON questions.user_id = users.id ORDER BY title ",
+                'message': "SELECT questions.*, users.username FROM questions LEFT JOIN users ON questions.user_id = users.id ORDER BY message ",
+                'view_number': "SELECT questions.*, users.username FROM questions LEFT JOIN users ON questions.user_id = users.id ORDER BY view_number ",
+                'vote_number': "SELECT questions.*, users.username FROM questions LEFT JOIN users ON questions.user_id = users.id ORDER BY vote_number "
     }
     cursor.execute(order_dict[order_by] + order_direction + ";")
     questions = cursor.fetchall()
@@ -22,7 +22,7 @@ def get_all_questions(cursor, order_by='submission_time', order_direction='DESC'
 @database_common.connection_handler
 def get_latest_five_questions(cursor):
     cursor.execute(f"""
-                        SELECT * FROM questions
+                        SELECT questions.*, users.username FROM questions LEFT JOIN users ON questions.user_id = users.id
                         ORDER BY submission_time DESC
                         LIMIT 5; 
         """)
@@ -36,7 +36,9 @@ def get_question(cursor, question_id):
                     UPDATE questions
                     SET view_number = view_number + 1
                     WHERE id = {question_id};
-                    SELECT * FROM questions WHERE id = {question_id}; 
+                    SELECT questions.*, users.username FROM questions 
+                    LEFT JOIN users on questions.user_id = users.id
+                    WHERE questions.id = {question_id}; 
     """)
     question = cursor.fetchall()
     return question
@@ -52,11 +54,11 @@ def get_answers_for_question(cursor, question_id):
 
 
 @database_common.connection_handler
-def post_question(cursor, title, message, image=None):
+def post_question(cursor, title, message, user_id):
     submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
     cursor.execute(f"""
-                    INSERT INTO questions (submission_time, view_number, vote_number, title, message, image)
-                    VALUES ('{submission_time}', 0, 0, '{title}', '{message}', '{image}');
+                    INSERT INTO questions (submission_time, view_number, vote_number, title, message, user_id)
+                    VALUES ('{submission_time}', 0, 0, '{title}', '{message}', {user_id});
 """)
     cursor.execute(f"""
                     SELECT id FROM questions WHERE submission_time = '{submission_time}';
@@ -298,3 +300,14 @@ def get_all_users(cursor):
     """)
     users = cursor.fetchall()
     return users
+
+
+@database_common.connection_handler
+def get_user_id_by_username(cursor, username):
+    cursor.execute(f"""
+                           SELECT id FROM users
+                           WHERE username='{username}';
+        """)
+    result = cursor.fetchone()
+    user_id = result['id']
+    return user_id
