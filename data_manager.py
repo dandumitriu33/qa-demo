@@ -79,11 +79,25 @@ def update_question(cursor, question_id, title, message):
 
 
 @database_common.connection_handler
-def question_vote_up(cursor, question_id):
+def get_user_id_by_question_id(cursor, question_id):
+    cursor.execute(f"""
+                    SELECT user_id FROM questions
+                    WHERE id={question_id};
+    """)
+    result = cursor.fetchone()
+    user_id = result['user_id']
+    return user_id
+
+
+@database_common.connection_handler
+def question_vote_up(cursor, question_id, points_user_id):
     cursor.execute(f"""
                     UPDATE questions
                     SET vote_number = vote_number + 1
                     WHERE id = {question_id};
+                    UPDATE users
+                    SET reputation = reputation + 5
+                    WHERE id={points_user_id};
 """)
 
 
@@ -97,11 +111,25 @@ def question_vote_down(cursor, question_id):
 
 
 @database_common.connection_handler
-def answer_vote_up(cursor, answer_id):
+def get_user_id_by_answer_id(cursor, answer_id):
+    cursor.execute(f"""
+                    SELECT user_id FROM answers
+                    WHERE id={answer_id};
+    """)
+    result = cursor.fetchone()
+    user_id = result['user_id']
+    return user_id
+
+
+@database_common.connection_handler
+def answer_vote_up(cursor, answer_id, points_user_id):
     cursor.execute(f"""
                     UPDATE answers
                     SET vote_number = vote_number + 1
                     WHERE id = {answer_id};
+                    UPDATE users
+                    SET reputation = reputation + 10
+                    WHERE id={points_user_id};
 """)
 
 
@@ -378,9 +406,12 @@ def update_answer_not_accepted(cursor, answer_id):
 
 
 @database_common.connection_handler
-def update_answer_accepted(cursor, answer_id):
+def update_answer_accepted(cursor, answer_id, points_user_id):
     cursor.execute(f"""
                     UPDATE answers
                     SET accepted=true
                     WHERE id={answer_id};
+                    UPDATE users
+                    SET reputation = reputation + 15
+                    WHERE id={points_user_id};
     """)

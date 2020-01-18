@@ -49,7 +49,8 @@ def display_question(question_id):
 
 @app.route('/question/<question_id>/vote-up')
 def question_vote_up(question_id):
-    data_manager.question_vote_up(question_id)
+    points_user_id = data_manager.get_user_id_by_question_id(question_id)
+    data_manager.question_vote_up(question_id, points_user_id)
     return redirect(url_for('display_question',
                             question_id=question_id))
 
@@ -137,7 +138,8 @@ def delete_answer(answer_id):
 
 @app.route('/answer/<answer_id>/vote-up')
 def answer_vote_up(answer_id):
-    data_manager.answer_vote_up(answer_id)
+    points_user_id = data_manager.get_user_id_by_answer_id(answer_id)
+    data_manager.answer_vote_up(answer_id, points_user_id)
     answer = data_manager.get_answer(answer_id)
     question_id = answer['question_id']
     return redirect(url_for('display_question',
@@ -297,7 +299,8 @@ def accept_answer(answer_id):
         data_manager.update_answer_not_accepted(answer_id)
         return redirect(url_for('display_question', question_id=question_id))
     elif not answer['accepted']:
-        data_manager.update_answer_accepted(answer_id)
+        points_user_id = data_manager.get_user_id_by_answer_id(answer_id)
+        data_manager.update_answer_accepted(answer_id, points_user_id)
         return redirect(url_for('display_question', question_id=question_id))
 
 
