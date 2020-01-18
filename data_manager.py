@@ -289,3 +289,12 @@ def get_db_password_for_user(cursor, username):
 def verify_password(plain_text_password, hashed_password):
     hashed_bytes_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+@database_common.connection_handler
+def get_all_users(cursor):
+    cursor.execute(f"""
+                    SELECT * FROM users; 
+    """)
+    users = cursor.fetchall()
+    return users
