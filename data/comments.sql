@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS comments;
-
 create table comments (
 	id BIGSERIAL NOT NULL PRIMARY KEY,
 	submission_time VARCHAR(20) NOT NULL,

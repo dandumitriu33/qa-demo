@@ -227,5 +227,17 @@ def delete_comment(comment_id):
                                 question_id=question_id))
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    elif request.method == 'POST':
+        name = request.form['name']
+        username = request.form['username']
+        password = data_manager.hash_password(request.form['password'])
+        data_manager.register_user(name, username, password)
+        return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

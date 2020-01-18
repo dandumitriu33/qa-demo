@@ -2,6 +2,7 @@ import database_common
 import psycopg2
 import datetime
 import time
+import bcrypt
 
 
 @database_common.connection_handler
@@ -259,3 +260,16 @@ def delete_comment(cursor, comment_id):
                     DELETE FROM comments
                     WHERE id = {comment_id};
     """)
+
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+@database_common.connection_handler
+def register_user(cursor, name, username, password):
+    cursor.execute(f"""
+                        INSERT INTO users (name, username, password)
+                        VALUES ('{name}', '{username}', '{password}');
+""")
