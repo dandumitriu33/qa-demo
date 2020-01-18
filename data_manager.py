@@ -47,7 +47,9 @@ def get_question(cursor, question_id):
 @database_common.connection_handler
 def get_answers_for_question(cursor, question_id):
     cursor.execute(f"""
-                    SELECT * FROM answers WHERE question_id = {question_id} ORDER BY vote_number DESC;
+                    SELECT answers.*, users.username FROM answers 
+                    LEFT JOIN users ON answers.user_id = users.id
+                    WHERE question_id = {question_id} ORDER BY vote_number DESC;
     """)
     answers = cursor.fetchall()
     return answers
@@ -140,11 +142,11 @@ def delete_question(cursor, question_id):
 
 
 @database_common.connection_handler
-def post_answer(cursor, question_id, message, image=None):
+def post_answer(cursor, question_id, message, user_id):
     submission_time = datetime.datetime.utcnow().isoformat(' ', 'seconds')
     cursor.execute(f"""
-                    INSERT INTO answers (submission_time, vote_number, question_id, message, image)
-                    VALUES ('{submission_time}', 0, {question_id}, '{message}', '{image}')
+                    INSERT INTO answers (submission_time, vote_number, question_id, message, user_id)
+                    VALUES ('{submission_time}', 0, {question_id}, '{message}', {user_id})
     """)
 
 

@@ -105,7 +105,8 @@ def question_new_answer(question_id):
                                question_id=question_id)
     elif request.method == 'POST':
         new_answer_message = request.form['message'].replace("'", "''")
-        data_manager.post_answer(question_id, new_answer_message)
+        user_id = data_manager.get_user_id_by_username(session['username'])
+        data_manager.post_answer(question_id, new_answer_message, user_id)
         return redirect(url_for('display_question', question_id=question_id))
 
 
