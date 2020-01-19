@@ -345,6 +345,13 @@ def add_new_tag_to_question(cursor, tag_id, question_id):
         """)
 
 
+@database_common.connection_handler
+def delete_tag_from_question(cursor, tag_id, question_id):
+    cursor.execute(f"""
+                    DELETE FROM question_tag WHERE tag_id={tag_id} AND question_id={question_id};
+""")
+
+
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
     return hashed_bytes.decode('utf-8')

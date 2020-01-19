@@ -38,7 +38,7 @@
 <div>
     <p><span>tags: </span>
         {% for tag in tags %}
-        <span>{{ tag.name }} </span>
+        <span>{{ tag.name }} </span><a href="{{ url_for('delete_tag_from_question', tag_id=tag.tag_id, question_id=question_id) }}">( x )</a>
         {% endfor %}
         <span><a href="{{ url_for('question_new_tag', question_id=question_id)}}">Add tag</a></span>
     </p>
