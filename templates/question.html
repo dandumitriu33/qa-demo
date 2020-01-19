@@ -31,14 +31,20 @@
         </p>
         {% endif %}
 
-
-
     {% endfor %}
 
+</div>
 
-
+<div>
+    <p><span>tags: </span>
+        {% for tag in tags %}
+        <span>{{ tag.name }} </span>
+        {% endfor %}
+        <span><a href="{{ url_for('question_new_tag', question_id=question_id)}}">Add tag</a></span>
+    </p>
 
 </div>
+
 
 <div>
     {% for comment in comments %}

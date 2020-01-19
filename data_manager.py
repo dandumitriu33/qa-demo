@@ -300,6 +300,51 @@ def delete_comment(cursor, comment_id):
     """)
 
 
+@database_common.connection_handler
+def get_all_tags(cursor):
+    cursor.execute(f"""
+                    SELECT * FROM tag ORDER BY name ASC; 
+    """)
+    all_tags = cursor.fetchall()
+    return all_tags
+
+
+@database_common.connection_handler
+def get_question_tags(cursor, question_id):
+    cursor.execute(f"""
+                    SELECT question_tag.*, tag.name FROM question_tag 
+                    JOIN tag ON question_tag.tag_id = tag.id
+                    WHERE question_id={question_id} 
+                    ORDER BY name ASC; 
+    """)
+    question_tags = cursor.fetchall()
+    return question_tags
+
+
+@database_common.connection_handler
+def add_new_tag_to_db(cursor, new_tag_name):
+    cursor.execute(f"""
+                        INSERT INTO tag (name) VALUES ('{new_tag_name}');
+        """)
+
+
+@database_common.connection_handler
+def get_tag_id_by_name(cursor, new_tag_name):
+    cursor.execute(f"""
+                    SELECT id FROM tag WHERE name = '{new_tag_name}';
+""")
+    result = cursor.fetchone()
+    tag_id = result['id']
+    return tag_id
+
+
+@database_common.connection_handler
+def add_new_tag_to_question(cursor, tag_id, question_id):
+    cursor.execute(f"""
+                        INSERT INTO question_tag (tag_id, question_id) VALUES ({tag_id}, {question_id});
+        """)
+
+
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
     return hashed_bytes.decode('utf-8')

@@ -40,11 +40,13 @@ def display_question(question_id):
     question = data_manager.get_question(question_id)
     answers = data_manager.get_answers_for_question(question_id)
     comments = data_manager.get_comments_for_question(question_id)
+    tags = data_manager.get_question_tags(question_id)
     return render_template('question.html',
                            question_id=question_id,
                            question=question,
                            answers=answers,
-                           comments=comments)
+                           comments=comments,
+                           tags=tags)
 
 
 @app.route('/question/<question_id>/vote-up')
@@ -240,6 +242,31 @@ def delete_comment(comment_id):
         data_manager.delete_comment(comment_id)
         return redirect(url_for('display_question',
                                 question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+def question_new_tag(question_id):
+    if request.method == 'POST':
+        new_tag_name = request.form['tag-name']
+        data_manager.add_new_tag_to_db(new_tag_name)
+        tag_id = data_manager.get_tag_id_by_name(new_tag_name)
+        data_manager.add_new_tag_to_question(tag_id, question_id)
+        return redirect(url_for('display_question',
+                                question_id=question_id))
+    all_tags = data_manager.get_all_tags()
+    question_tags = data_manager.get_question_tags(question_id)
+    return render_template('new-tag.html',
+                           question_id=question_id,
+                           all_tags=all_tags,
+                           question_tags=question_tags)
+
+
+@app.route('/question/<question_id>/add-tag')
+def add_tag_to_question(question_id):
+    tag_id = request.args.get('tag_id')
+    data_manager.add_new_tag_to_question(tag_id, question_id)
+    return redirect(url_for('display_question',
+                            question_id=question_id))
 
 
 @app.route('/register', methods=['GET', 'POST'])

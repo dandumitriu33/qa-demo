@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>New tag</title>
+{% endblock head %}
+
+
+{% block body %}
+
+<h1>Add a tag</h1>
+
+    <h2>All tags:</h2>
+        <p>
+        {% for tag in all_tags %}
+            <span>{{ tag.name }} </span><span><a href="{{ url_for('add_tag_to_question', tag_id=tag.id, question_id=question_id) }}">( + )</a></span>
+        {% endfor %}
+        </p>
+
+    <h2>Question tags:</h2>
+        <p>
+        {% for question_tag in question_tags %}
+            <span>{{ question_tag.name }} </span>
+        {% endfor %}
+        </p>
+
+    <h2>Create and add a new tag:</h2>
+        <form action="{{ url_for('question_new_tag', question_id=question_id) }}" method="POST">
+            <label for="tag-name">Tag name:</label>
+            <input type="text" name="tag-name"  id="tag-name" placeholder="name your tag">
+            <input type="submit" value="Submit" >
+        </form>
+
+{% endblock body %}
