@@ -268,6 +268,13 @@ def add_tag_to_question(tag_id, question_id):
                             question_id=question_id))
 
 
+@app.route('/tags')
+def display_all_tags_with_stats():
+    all_tags = data_manager.get_all_tags_with_stats()
+    return render_template('tags.html',
+                           all_tags=all_tags)
+
+
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
 def delete_tag_from_question(tag_id, question_id):
     data_manager.delete_tag_from_question(tag_id=tag_id, question_id=question_id)

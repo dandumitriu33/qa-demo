@@ -312,6 +312,18 @@ def get_all_tags(cursor):
 
 
 @database_common.connection_handler
+def get_all_tags_with_stats(cursor):
+    cursor.execute(f"""
+                    SELECT tag.name, COUNT(question_tag.question_id) AS times FROM tag 
+                    LEFT JOIN question_tag ON tag.id = question_tag.tag_id
+                    GROUP BY tag.name 
+                    ORDER BY tag.name ASC; 
+    """)
+    all_tags_with_stats = cursor.fetchall()
+    return all_tags_with_stats
+
+
+@database_common.connection_handler
 def get_question_tags(cursor, question_id):
     cursor.execute(f"""
                     SELECT question_tag.*, tag.name FROM question_tag 

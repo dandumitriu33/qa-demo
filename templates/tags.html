@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Tags</title>
+{% endblock head %}
+
+{% block body %}
+
+<h1>Tags</h1>
+
+
+    {% for tag in all_tags %}
+        <span> {{ tag.name }}: {{ tag.times }}</span>
+    {% endfor %}
+
+{% endblock body %}
