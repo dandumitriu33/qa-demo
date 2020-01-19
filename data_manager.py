@@ -168,6 +168,8 @@ def delete_question(cursor, question_id):
     cursor.execute(f"""
                     DELETE FROM answers
                     WHERE question_id = {question_id};
+                    DELETE FROM question_tag
+                    WHERE question_id = {question_id};
                     DELETE FROM comments 
                     WHERE question_id = {question_id};
                     DELETE FROM questions
