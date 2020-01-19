@@ -251,29 +251,37 @@ def post_answer_comment(cursor, answer_id, message, user_id):
 
 
 @database_common.connection_handler
-def get_comments_for_question(cursor, question_id):
-    comments = []
-
-    # getting comments from the question side
-
+def get_comments_for_question(cursor, question_id, answer_id_list):
+    if not answer_id_list:
+        answer_id_list.append('0')
+    answer_id_str = ', '.join(answer_id_list)
     cursor.execute(f"""
-                        SELECT * FROM comments WHERE question_id = {question_id} ORDER BY submission_time DESC;
-        """)
-    comments.append(cursor.fetchall())
-
-    # getting comments from the answers of the above question
-
-    cursor.execute(f"""
-                    SELECT * FROM answers WHERE question_id = {question_id};
+                        SELECT * FROM comments WHERE question_id = {question_id} OR answer_id IN ({answer_id_str});
     """)
-    answers = cursor.fetchall()
-    for answer in answers:
-        answer_id = answer['id']
-        cursor.execute(f"""
-                            SELECT * FROM comments WHERE answer_id = {answer_id} ORDER BY submission_time DESC;
-            """)
-        comments.append(cursor.fetchall())
+    comments = cursor.fetchall()
     return comments
+    # comments = []
+    #
+    # # getting comments from the question side
+    #
+    # cursor.execute(f"""
+    #                     SELECT * FROM comments WHERE question_id = {question_id} ORDER BY submission_time DESC;
+    #     """)
+    # comments.append(cursor.fetchall())
+    #
+    # # getting comments from the answers of the above question
+    #
+    # cursor.execute(f"""
+    #                 SELECT * FROM answers WHERE question_id = {question_id};
+    # """)
+    # answers = cursor.fetchall()
+    # for answer in answers:
+    #     answer_id = answer['id']
+    #     cursor.execute(f"""
+    #                         SELECT * FROM comments WHERE answer_id = {answer_id} ORDER BY submission_time DESC;
+    #         """)
+    #     comments.append(cursor.fetchall())
+    # return comments
 
 
 @database_common.connection_handler
