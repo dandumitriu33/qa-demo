@@ -261,9 +261,8 @@ def question_new_tag(question_id):
                            question_tags=question_tags)
 
 
-@app.route('/question/<question_id>/add-tag')
-def add_tag_to_question(question_id):
-    tag_id = request.args.get('tag_id')
+@app.route('/question/<question_id>/add-tag/<tag_id>')
+def add_tag_to_question(tag_id, question_id):
     data_manager.add_new_tag_to_question(tag_id, question_id)
     return redirect(url_for('display_question',
                             question_id=question_id))
@@ -271,12 +270,9 @@ def add_tag_to_question(question_id):
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
 def delete_tag_from_question(tag_id, question_id):
-    # tag_id = request.args.get('tag_id')
-    # question_id = request.args.get('question_id')
     data_manager.delete_tag_from_question(tag_id=tag_id, question_id=question_id)
     return redirect(url_for('display_question',
                             question_id=question_id))
-
 
 
 @app.route('/register', methods=['GET', 'POST'])
