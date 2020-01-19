@@ -1,6 +1,8 @@
 html {
-    background-color: rgb(48,128,118);
+    background-color: rgb(64,30,0);
     font-family: sans-serif;
+    font-weight: lighter;
+    color: lightgray;
 }
 
 nav {
@@ -31,14 +33,14 @@ button, .text-button {
     margin: 0 auto;
     display: block;
     width: 50%;
-    border: 2px solid rgb(78,204,189);
+    border: none;
     border-radius: 3px;
     padding: 3px;
     font-size: larger;
     font-weight: bold;
-    color: white;
-    background-color: rgb(78,204,189);
-    box-shadow: 3px 3px 3px rgb(24,64,59);
+    color: lightgray;
+    background-color: rgb(179,80,0);
+    box-shadow: 3px 3px 3px black, inset 3px 3px 3px rgb(199,120,0);
 }
 
 button:hover {
@@ -56,22 +58,22 @@ mark {
 
 a:link {
     text-decoration: none;
-    color: black;
+    color: lightgray;
 }
 
 a:visited {
     text-decoration: none;
-    color: black;
+    color: lightgray;
 }
 
 a:hover {
     text-decoration: none;
-    color: rgb(24,64,59);
+    color: darkorange;
 }
 
 a:active {
     text-decoration: none;
-    color: rgb(24,64,59);
+    color: darkorange;
 }
 
 
@@ -79,7 +81,7 @@ a:active {
 
 .menu-button {
     margin: 3px;
-    box-shadow: 3px 3px 3px rgb(24,64,59);
+    box-shadow: 3px 3px 3px black;
     border-radius: 3px;
 }
 
@@ -91,34 +93,33 @@ a:active {
     margin: 1%;
     padding: 1%;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px rgb(24,64,59);
-    background-color: rgb(73,191,177);
+    box-shadow: 3px 3px 3px black, inset 3px 3px 3px rgb(84,50,20);
+    background-color: rgb(74,40,10);
 }
 
 .question-info {
-    color: rgb(87,230,213);
+    color: rgb(230,103,0);
     font-size: small;
 }
 
 .question-title {
     font-size: larger;
-    text-shadow: 1px 1px 1px rgb(173,255,245);
 }
 
 .answer {
     margin: 1%;
     padding: 1%;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px rgb(24,64,59);
-    background-color: rgb(73,191,177);
+    box-shadow: 3px 3px 3px black, inset 3px 3px 3px rgb(84,50,20);
+    background-color: rgb(74,40,10);
 }
 
 .comment {
     margin: 1%;
     margin-left: 60%;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px rgb(24,64,59);
-    background-color: rgb(50,128,110);
+    box-shadow: 3px 3px 3px black, inset 1px 1px 3px rgb(179,80,0);
+    background-color: rgb(102,46,0);
 
 }
 
@@ -148,8 +149,8 @@ a:active {
     margin: 1%;
     padding: 1%;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px rgb(24,64,59);
-    background-color: rgb(73,191,177);
+    box-shadow: 3px 3px 3px black, inset 3px 3px 3px rgb(84,50,20);
+    background-color: rgb(74,40,10);
 }
 
 .authentication-bar {
@@ -158,4 +159,31 @@ a:active {
 
 .authentication-items {
     text-align: right;
+}
+
+.tag {
+    background-color: rgb(191,89,0);
+    margin-left: 1%;
+    padding-left: 8px;
+    padding-right: 4px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    border-top-left-radius: 120px;
+    border-bottom-left-radius: 120px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: inset 2px 2px 2px rgb(255,120,1);
+}
+
+.tag-action {
+    background-color: rgb(191,89,0);
+    margin-left: 3px;
+    padding: 2px;
+    border-radius: 3px;
+    color: lightgray;
+    box-shadow: inset 2px 2px 2px rgb(255,120,1);
+}
+
+.user-info-container {
+    margin: 1%;
 }

@@ -36,11 +36,11 @@
 </div>
 
 <div>
-    <p><span>tags: </span>
+    <p><span class="tag">tags:</span>
         {% for tag in tags %}
-        <span>{{ tag.name }} </span><a href="{{ url_for('delete_tag_from_question', tag_id=tag.tag_id, question_id=question_id) }}">( x )</a>
+        <span class="tag">{{ tag.name }}</span><a href="{{ url_for('delete_tag_from_question', tag_id=tag.tag_id, question_id=question_id) }}"><span class="tag-action">X</span></a>
         {% endfor %}
-        <span><a href="{{ url_for('question_new_tag', question_id=question_id)}}">Add tag</a></span>
+        <span><a href="{{ url_for('question_new_tag', question_id=question_id)}}"><span class="tag-action">+</span></a></span>
     </p>
 
 </div>
@@ -71,9 +71,9 @@
                 <a href="{{ url_for('answer_vote_down', answer_id=answer.id) }}"><img src="/static/img/buttondownvote.png" width="20" height="17"></a>
                     <span>
                         {% if not answer.accepted %}
-                            <a href="{{ url_for('accept_answer', answer_id=answer.id) }}">Accept answer</a>
+                            <a href="{{ url_for('accept_answer', answer_id=answer.id) }}" class="tag-action">Mark accepted</a>
                         {% else %}
-                            ACCEPTED <a href="{{ url_for('accept_answer', answer_id=answer.id) }}">Undo</a>
+                        <span class="tag-action">ACCEPTED</span> <a href="{{ url_for('accept_answer', answer_id=answer.id) }}" class="tag-action">Clear</a>
                         {% endif %}
                     </span>
                 <span>{{ answer.message }}</span>

@@ -12,14 +12,14 @@
     <h2>All tags:</h2>
         <p>
         {% for tag in all_tags %}
-            <span>{{ tag.name }} </span><span><a href="{{ url_for('add_tag_to_question', tag_id=tag.id, question_id=question_id) }}">( + )</a></span>
+            <span class="tag">{{ tag.name }} </span><a href="{{ url_for('add_tag_to_question', tag_id=tag.id, question_id=question_id) }}"><span class="tag-action">+</span></a>
         {% endfor %}
         </p>
 
     <h2>Question tags:</h2>
         <p>
         {% for question_tag in question_tags %}
-            <span>{{ question_tag.name }} </span>
+            <span class="tag">{{ question_tag.name }} </span>
         {% endfor %}
         </p>
 
